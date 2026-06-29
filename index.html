@@ -103,6 +103,15 @@
   tick();
   setInterval(tick, 1000);
 
+  // Putar video anti-layar-mati langsung saat halaman dibuka
+  // (tidak tunggu fullscreen) agar efektif di TV LG WebOS sejak awal.
+  window.addEventListener('load', () => {
+    if(nosleepVideo){
+      nosleepVideo.style.display = 'block';
+      nosleepVideo.play().catch(()=>{});
+    }
+  });
+
   // ── WAKE LOCK ──────────────────────────────────────────────────────────────
   // Dua lapis perlindungan agar layar tidak mati:
   // 1) Wake Lock API (navigator.wakeLock) — cara resmi, butuh https/secure context
