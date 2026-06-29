@@ -266,27 +266,17 @@ body.orientation-resolved #landscape-exit{
   letter-spacing:.18em;
   text-transform:uppercase;
 }
-/* Saat orientation-locked, viewport device SUDAH landscape asli (tinggi fisik
-   layar mengecil, lebar membesar) — basis "vh" yang dipakai di atas dihitung
-   dari mode tegak/CSS-rotate sehingga jadi kecil di sini. Pakai basis "vw"
-   sebagai gantinya, karena di landscape asli lebar device jauh lebih besar
-   dari tingginya. Nilai 21vw dipilih agar teks "00:00:00" mengisi penuh lebar
-   layar tanpa terpotong (24vw kepotong, 19vw masih bersisa banyak — 21vw titik
-   amannya). min(...,70vh) sebagai pengaman tinggi di layar landscape pendek. */
+/* orientation-locked = layar SUDAH landscape (HP terkunci, laptop, TV).
+   Gunakan vw sebagai basis + container-query trick via font-size dinamis.
+   "00:00:00" = 8 karakter tabular ~ 0.595em lebar masing-masing.
+   Target: teks mengisi ~88% lebar layar → 88vw / (8 × 0.595) ≈ 18.5vw/char
+   Dibatasi 68vh agar tidak terpotong di layar pendek (laptop 768px tinggi). */
 body.orientation-locked #landscape-time{
-  font-size:min(clamp(5rem,21vw,24rem),70vh);
+  font-size:min(18.5vw, 68vh);
 }
 body.orientation-locked #landscape-date{
-  font-size:min(clamp(.8rem,2.8vw,1.9rem),9vh);
-}
-/* Layar sangat lebar (TV/laptop ≥1280px): jam lebih besar */
-@media(min-width:1280px){
-  body.orientation-locked #landscape-time{
-    font-size:min(clamp(8rem,18vw,28rem),75vh);
-  }
-  body.orientation-locked #landscape-date{
-    font-size:min(clamp(1rem,2.2vw,2.2rem),8vh);
-  }
+  font-size:min(2.4vw, 4vh, 2rem);
+  letter-spacing:.22em;
 }
 #landscape-exit{
   position:absolute;
